@@ -1,0 +1,973 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Planificador de vuelo</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.4.4/d3.min.js" integrity="sha512-hnFpvCiJ8Fr1lYLqcw6wLgFUOEZ89kWCkO+cEekwcWPIPKyknKV1eZmSSG3UxXfsSuf+z/SgmiYB1zFOg3l2UQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+    <script src="index.js"></script>
+    <link href="index.css" rel="stylesheet">
+   
+</head>
+<body>
+    <nav class="navbar navbar-dark bg-dark">
+        <div class="container-fluid">
+          <a class="navbar-brand" href="#">Planificador de misiones fotogramétricas con UAS</a>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="row">
+              <div class="col-4 bordes-negros">
+                <!--<input  type="text" id="x" class="form-control margin-component" placeholder="Coordenada x" >
+                <input  type="text" id="y" class="form-control margin-component" placeholder="Coordenada y" >
+                <input  type="text" id="WidthView" class="form-control margin-component" placeholder="WidthView" >
+                <input  type="text" id="AltoView" class="form-control margin-component" placeholder="AltoView" >
+                
+ 
+              
+                <button type="button" class="btn btn-primary margin-component" onclick="changeViewBox()">Change View Box </button> <br/>
+                <br/>
+                -->
+
+
+
+
+
+                <div class="accordion" id="accordionExample">
+
+                  <div class="accordion-item">
+
+                    <h2 class="accordion-header" id="headingView">
+                      <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseView" aria-expanded="false" aria-controls="collapseView">
+                        <Strong> View Box</Strong>
+                      </button>
+                    </h2>
+                    <div id="collapseView" class="accordion-collapse collapse" aria-labelledby="headingView" data-bs-parent="#accordionExample">
+                      <div class="accordion-body">
+  
+                        <div class="row g-2">
+                          <div class="col-md">
+                            <div class="form-floating">
+                              <input type="text" class="form-control" id="x"  placeholder="name@example.com">
+                              <label for="x">Coordenada X</label>
+                            </div>
+                          </div>
+                          <div class="col-md">
+                            <div class="form-floating">
+                              <input type="text" class="form-control" id="y"  placeholder="name@example.com" >
+                              <label for="y">Coordenada Y</label>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="row g-2">
+                          <div class="col-md">
+                            <div class="form-floating">
+                              <input type="text" class="form-control" id="WidthView"  placeholder="name@example.com">
+                              <label for="WidthView">Zoom X</label>
+                            </div>
+                          </div>
+                          <div class="col-md">
+                            <div class="form-floating">
+                              <input type="text" class="form-control" id="AltoView"  placeholder="name@example.com" >
+                              <label for="AltoView">Zoom Y</label>
+                            </div>
+                          </div>
+                        </div>
+  
+                        <div class="row">
+                          <br/> <br/> <button type="button" class="btn btn-primary margin-component" onclick="changeViewBox()">Change View Box </button>
+                        </div>
+  
+  
+                      </div>
+                    </div>
+                  </div>
+              
+                 <div class="accordion-item">
+
+                      <h2 class="accordion-header" id="headingOne">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
+                          <strong>Lugar de la misión </strong>
+                        </button>
+                      </h2>
+
+                      <div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+                       
+                        <div class="accordion-body">
+
+                          <div class="accordion-item">
+                            <h2 class="accordion-header" id="headingSub">
+                              <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSubOne" aria-expanded="false" aria-controls="collapseSubOne">
+                                <strong>Área de la operación </strong>
+                              </button>
+                            </h2>
+
+                            <div id="collapseSubOne" class="accordion-collapse collapse " aria-labelledby="headingSub" >
+                              <div class="accordion-body">
+
+                                <div class="row g-2">
+                                  <div class="col-md">
+                                    <div class="form-floating">
+                                      <input type="text" class="form-control" id="Xmax" onclick="fillState('XYmax','#FF0000','#FF0000')" placeholder="name@example.com">
+                                      <label for="Xmax">X max</label>
+                                    </div>
+                                  </div>
+                                  <div class="col-md">
+                                    <div class="form-floating">
+                                      <input type="text" class="form-control" id="Ymax" onclick="fillState('XYmax','#FF0000','#FF0000')" placeholder="name@example.com">
+                                      <label for="Ymax">Y max</label>
+                                    </div>
+                                  </div>
+                                </div>
+
+                                <div class="row g-2">
+                                  <div class="col-md">
+                                    <div class="form-floating">
+                                      <input type="text" class="form-control" id="Xmin" onclick="fillState('XYmin','#FF0000','#FF0000')" placeholder="name@example.com">
+                                      <label for="Xmin">X min</label>
+                                    </div>
+                                  </div>
+                                  <div class="col-md">
+                                    <div class="form-floating">
+                                      <input type="text" class="form-control" id="Ymin" onclick="fillState('XYmin','#FF0000','#FF0000')" placeholder="name@example.com">
+                                      <label for="Ymin">Y min</label>
+                                    </div>
+                                  </div>
+                                </div>
+
+
+                              </div>
+                            </div>
+                        
+                          </div>
+
+
+                          <div class="accordion-item">
+                            <h2 class="accordion-header" id="headingSub">
+                              <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSubTwo" aria-expanded="true" aria-controls="collapseSubTwo">
+                                <strong>Despegue y aterrizaje </strong>
+                              </button>
+                            </h2>
+
+                            <div id="collapseSubTwo" class="accordion-collapse collapse " aria-labelledby="headingSub" >
+                              <div class="accordion-body">
+
+                                <div class="row g-2">
+                                  <div class="col-md">
+                                    <div class="form-floating">
+                                      <input type="text" class="form-control" id="tofx"  onclick="fillState('tof','#FF0000','#00FF00')" placeholder="name@example.com">
+                                      <label for="tofx">Despegue (x)</label>
+                                    </div>
+                                  </div>
+                                  <div class="col-md">
+                                    <div class="form-floating">
+                                      <input type="text" class="form-control" id="tofy" onclick="fillState('tof','#FF0000','#00FF00')" placeholder="name@example.com" >
+                                      <label for="tofy">Despegue (y)</label>
+                                    </div>
+                                  </div>
+                                </div>
+
+                                <div class="row g-2">
+                                  <div class="col-md">
+                                    <div class="form-floating">
+                                      <input type="text" class="form-control" id="landx" onclick="fillState('land','#FF0000','#0000FF')" placeholder="name@example.com">
+                                      <label for="landx">Aterrizaje (x)</label>
+                                    </div>
+                                  </div>
+                                  <div class="col-md">
+                                    <div class="form-floating">
+                                      <input type="text" class="form-control" id="landy" onclick="fillState('land','#FF0000','#0000FF')" placeholder="name@example.com">
+                                      <label for="landy">Aterrizaje (y)</label>
+                                    </div>
+                                  </div>
+                                </div>
+
+
+                              </div>
+                            </div>
+                        
+                          </div>
+
+                          <div class="form-floating">
+                            <input type="text" class="form-control" id="AlturaVuelo"  placeholder="name@example.com" value="120">
+                            <label for="AlturaVuelo">Altura de vuelo (m)</label>
+                          </div>
+
+
+
+                    </div>
+                  </div>
+                </div>
+
+                <div class="accordion-item">
+                  <h2 class="accordion-header" id="headingTwo">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                        <strong>Sensor</strong>
+                    </button>
+                  </h2>
+                  <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
+                    <div class="accordion-body">
+
+                      <div class="row g-2">
+                        <div class="col-md">
+                          <div class="form-floating">
+                            <input type="text" class="form-control" id="anchodelsensor"  placeholder="name@example.com" value="35.8">
+                            <label for="anchodelsensor">Ancho (mm)</label>
+                          </div>
+                        </div>
+                        <div class="col-md">
+                          <div class="form-floating">
+                            <input type="text" class="form-control" id="altodelsensor"  placeholder="name@example.com" value="23.9">
+                            <label for="altodelsensor">Alto (mm)</label>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="row g-2">
+                        <div class="col-md">
+                          <div class="form-floating">
+                            <input type="text" class="form-control" id="pixelesancho"  placeholder="name@example.com" value="6024">
+                            <label for="pixelesancho">Píxeles ancho</label>
+                          </div>
+                        </div>
+                        <div class="col-md">
+                          <div class="form-floating">
+                            <input type="text" class="form-control" id="pixelesalto"  placeholder="name@example.com" value="4024">
+                            <label for="pixelesalto">Píxeles alto</label>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="form-floating">
+                        <input type="text" class="form-control" id="distanciafocal"  placeholder="name@example.com" value="35">
+                        <label for="distanciafocal">Distancia focal (mm)</label>
+                      </div>
+
+
+                    </div>
+                  </div>
+                </div>
+
+
+                <div class="accordion-item">
+                  <h2 class="accordion-header" id="headingThree">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                      <Strong> Solape de las fotografías</Strong>
+                    </button>
+                  </h2>
+                  <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#accordionExample">
+                    <div class="accordion-body">
+
+                      <div class="row g-2">
+                        <div class="col-md">
+                          <div class="form-floating">
+                            <input type="text" class="form-control" id="overlap"  placeholder="name@example.com" value="40">
+                            <label for="overlap">Overlap (%)</label>
+                          </div>
+                        </div>
+                        <div class="col-md">
+                          <div class="form-floating">
+                            <input type="text" class="form-control" id="sidelap"  placeholder="name@example.com" value="60">
+                            <label for="sidelap">Sidelap (%)</label>
+                          </div>
+                        </div>
+                      </div>
+
+
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+          
+              <p>
+                <div class="d-grid gap-2">
+
+                  
+                    <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample" onclick="DimensionesFotografía();createmission()">
+                      Calcular Path + Fotocentros + Fotos
+                    </button>
+                    <button class="btn btn-primary" type="button" onclick="switchVisibletoflandPath()" >
+                      Mostrar/Ocultar Path
+                    </button>
+                    <button class="btn btn-primary" type="button"   onclick="switchVisibleFotocentros()">
+                      Mostrar/Ocultar Fotocentros
+                    </button>
+                    <button class="btn btn-primary" type="button"    onclick="switchVisibleFotos()">
+                      Mostrar/Ocultar Fotografías
+                    </button>
+    
+    
+                </div>
+             </p>
+
+
+
+              <div class="collapse" id="collapseExample">
+                <div class="card card-body">
+                  
+  
+                    <div class="input-group mb-3">
+                      <span class="input-group-text">Foto (m)</span>
+                      <input type="text" aria-label="Ancho" class="form-control" id = "resultadoancho">
+                      <input type="text" aria-label="Alto" class="form-control" id = "resultadoalto"> 
+                    </div>
+
+
+                    <div class="input-group">
+                      <span class="input-group-text">Resolución (m)</span>
+                      <input type="text" aria-label="Ancho" class="form-control" id = "anchopixel">
+                      <input type="text" aria-label="Alto" class="form-control" id = "altopixel">
+                    </div>
+ 
+
+            
+                </div>
+              </div>
+
+
+
+          
+          </div>
+          
+
+          <div class="col-8 bordes-negros">
+              <svg class="map-container" id="svgContainer" viewBox="0 0 800 600" width="800" height="600" xmlns="http://www.w3.org/2000/svg" onclick="getCoors(evt),PaintAreaPath()">
+                <circle cx="50%" cy="50%" r="100" fill="white"/>
+ 
+              </svg>
+
+            
+          </div>
+        </div>
+
+    </div>
+
+ 
+</div>
+
+
+<script>
+  var svgNS = "http://www.w3.org/2000/svg"; 
+
+  let state="";
+  let strokeColor="#000000";
+  let backColor="#000000";
+  let fotocentros;
+  let fotos;
+  let dronePath;
+  let path
+  function fillState(_state,_stroke,_back){
+    state=_state
+    strokeColor=_stroke;
+    backColor=_back;
+  }
+
+  function DimensionesFotografía(){
+      var AnchoSensorm=parseFloat(document.getElementById("anchodelsensor").value) * 0.001;
+      var AltoSensorm=parseFloat(document.getElementById("altodelsensor").value)*0.001;
+      var Alturam=parseFloat(document.getElementById("AlturaVuelo").value);
+      var DistanciaFocalm=parseFloat(document.getElementById("distanciafocal").value)*0.001;
+
+      var AnchoFoto=(AnchoSensorm*Alturam)/DistanciaFocalm;
+      var AltoFoto=(AltoSensorm*Alturam)/DistanciaFocalm;
+
+      document.getElementById("resultadoancho").value=AnchoFoto
+      document.getElementById("resultadoalto").value=AltoFoto
+
+
+
+      var Anchoporpixel=AnchoFoto/parseFloat(document.getElementById("pixelesancho").value * 0.01)
+      var Anchoporpixelrounded = Math.round((Anchoporpixel + Number.EPSILON) * 100) / 100;
+      document.getElementById("anchopixel").value=Anchoporpixelrounded
+
+      var Altoporpixel=AltoFoto/parseFloat(document.getElementById("pixelesalto").value * 0.01)
+      var Altoporpixelrounded = Math.round((Anchoporpixel + Number.EPSILON) * 100) / 100;
+      document.getElementById("altopixel").value=Altoporpixelrounded
+
+  }
+
+
+  function changeViewBox(){
+            //let vbox = `0 0 ${SVGWidth} ${SVGHeight}  `
+            var SVGWidth=document.getElementById("WidthView").value
+            var SVGHeight=document.getElementById("AltoView").value
+            var SVGX=document.getElementById("x").value
+            var SVGY=document.getElementById("y").value
+            let vbox= parseInt(SVGX) + " " + parseInt(SVGY) + " " + parseInt(SVGWidth) + " " + parseInt(SVGHeight);
+            var svgArea = document.getElementById('svgContainer');
+            svgArea.setAttribute("viewBox",vbox);
+  }
+
+
+
+  function getCoors(evt){
+    console.log(evt);
+
+    let xy = translateXY(evt.layerX,evt.layerY)
+
+    fillinTextBox(xy);
+
+    let x = xy[0];
+    let y = xy[1];
+
+    let circle=document.getElementById(state)
+
+    if (state!==''){
+      if (circle){
+        circle.setAttributeNS(null,"cx",x);
+        circle.setAttributeNS(null,"cy",y);
+      }else{
+        let rndcircle = document.createElementNS(svgNS,"circle");
+
+        rndcircle.setAttributeNS(null,"cx",x);
+        rndcircle.setAttributeNS(null,"cy",y);
+        rndcircle.setAttributeNS(null,"r",5);
+        rndcircle.setAttributeNS(null,"stroke",strokeColor);
+        rndcircle.setAttributeNS(null,"id",state);
+        rndcircle.setAttributeNS(null,"fill",backColor);
+        document.getElementById("svgContainer").appendChild(rndcircle);
+      }
+    }
+    state=''
+  }
+
+function PaintAreaPath(){
+    
+    let xmin = parseInt(document.getElementById("Xmin").value);
+    let xmax = parseInt(document.getElementById("Xmax").value);
+    let ymin = parseInt(document.getElementById("Ymin").value);
+    let ymax = parseInt(document.getElementById("Ymax").value);
+
+    let ytof = parseInt(document.getElementById("tofy").value);
+
+
+    let yland = parseInt(document.getElementById("landy").value);
+
+
+
+    let _xmin = xmin
+    if(_xmin > xmax)    {
+        xmin = xmax;
+        xmax = _xmin;
+
+        document.getElementById("Xmin").value=xmin
+        document.getElementById("Xmax").value=xmax
+    }
+    let _ymin = ymin
+    if(_ymin > ymax)    {
+        ymin = ymax;
+        ymax = _ymin;
+        document.getElementById("Ymin").value=ymin
+        document.getElementById("Ymax").value=ymax
+    }
+    const data = `M${xmin},${ymin} L${xmin},${ymax} L${xmax},${ymax} L${xmax},${ymin} Z`;
+    let pathId = 'areaPath';
+    let AreaPath = document.getElementById(pathId);    
+    if(AreaPath){
+        AreaPath.setAttributeNS(null,"d",data)
+    }
+    else
+    {
+    AreaPath = document.createElementNS(svgNS,"path");
+    AreaPath.setAttributeNS(null,"id","areaPath");
+    AreaPath.setAttributeNS(null,"d",data);
+    AreaPath.setAttributeNS(null,"fill","none");
+    AreaPath.setAttributeNS(null,"stroke","red");
+    document.getElementById("svgContainer").appendChild(AreaPath);
+    }
+
+
+}
+
+function createCircle(x,y){
+
+let circle = document.createElementNS(svgNS,"circle");
+circle.setAttributeNS(null,"cx",x);
+circle.setAttributeNS(null,"cy",y);
+circle.setAttributeNS(null,"r",5);
+circle.setAttributeNS(null,"fill","yellow");
+circle.setAttributeNS(null,"stroke",strokeColor);
+circle.setAttributeNS(null,"id",state);
+
+return circle;
+
+}
+function createArea(){
+let AreaFoto = document.createElementNS(svgNS,"path");
+AreaFoto.setAttributeNS(null,"d",data);
+AreaFoto.setAttributeNS(null,"fill","none");
+AreaFoto.setAttributeNS(null,"stroke","blue");
+return AreaFoto;
+}
+
+
+
+function createmission(){
+
+    let xmin = parseInt(document.getElementById("Xmin").value);
+    let xmax = parseInt(document.getElementById("Xmax").value);
+    let ymin = parseInt(document.getElementById("Ymin").value);
+    let ymax = parseInt(document.getElementById("Ymax").value); 
+    d3.select(fotocentros).remove();
+    d3.select(fotos).remove();
+    d3.select(path).remove();
+    //d3.select(landPath).remove();
+
+
+    let xtof = parseInt(document.getElementById("tofx").value);
+    let ytof = parseInt(document.getElementById("tofy").value);
+    let ytofreal = 600-ytof
+
+    let xland = parseInt(document.getElementById("landx").value);
+    let yland = parseInt(document.getElementById("landy").value);
+    let ylandreal = 600-yland
+
+    let distancia1=Math.sqrt((xmin-xtof)*(xmin-xtof)+(ymax-ytof)*(ymax-ytof))
+    let distancia2=Math.sqrt((xmin-xtof)*(xmin-xtof)+(ymin-ytof)*(ymin-ytof))
+    let distancia3=Math.sqrt((xmax-xtof)*(xmax-xtof)+(ymax-ytof)*(ymax-ytof))
+    let distancia4=Math.sqrt((xmax-xtof)*(xmax-xtof)+(ymin-ytof)*(ymin-ytof))
+
+    let puntos = [];
+
+    fotocentros = document.createElementNS(svgNS,"g");
+    fotos = document.createElementNS(svgNS,"g");
+    path=document.createElementNS(svgNS,"g")
+
+
+    let AnchoFoto=parseFloat(document.getElementById("resultadoancho").value);
+    let AltoFoto=parseFloat(document.getElementById("resultadoalto").value);
+    let DistanciaOverlap=AltoFoto-parseFloat(document.getElementById("overlap").value)*AltoFoto/100;
+    let DistanciaSidelap=AnchoFoto-parseFloat(document.getElementById("sidelap").value)*AnchoFoto/100;
+
+
+    if (distancia1 < distancia2 && distancia1 < distancia3 && distancia1 < distancia4){
+      let tofPath = document.createElementNS(svgNS,"path"); 
+      const data = `M${xtof},${ytofreal} L${xmin},${ymin} Z`;
+      
+      tofPath.setAttributeNS(null,"id","tofpath");
+      tofPath.setAttributeNS(null,"d",data);
+      tofPath.setAttributeNS(null,"fill","none");
+      tofPath.setAttributeNS(null,"stroke","red");
+      //document.getElementById("svgContainer").appendChild(tofPath);
+      path.appendChild(tofPath)
+
+        let ascendente = false;
+
+        for (let i=xmin ;i<xmax; i+=DistanciaSidelap){
+
+            if (ascendente){
+              let k=puntos[puntos.length-1]
+
+                for (let j=k[k.length-1];j>=ymin; j-=DistanciaOverlap){
+                    x = i;
+                    y = j;
+                    
+                    puntos.push([x, y]);
+                    fotocentros.appendChild(createCircle(x,y))
+
+                    xminfoto=i-AnchoFoto/2;
+                    xmaxfoto=i+AnchoFoto/2;
+                    yminfoto=j-AltoFoto/2;
+                    ymaxfoto=j+AltoFoto/2;
+
+
+                    const data = `M${xminfoto},${yminfoto} L${xminfoto},${ymaxfoto} L${xmaxfoto},${ymaxfoto} L${xmaxfoto},${yminfoto} Z`;
+                    let AreaFoto = document.createElementNS(svgNS,"path");
+                      AreaFoto.setAttributeNS(null,"d",data);
+                      AreaFoto.setAttributeNS(null,"fill","none");
+                      AreaFoto.setAttributeNS(null,"stroke","blue");
+                    
+                      fotos.appendChild(AreaFoto)
+
+                } 
+            }else{
+                for (let j=ymin;j<ymax; j+=DistanciaOverlap){
+                    x = i;
+                    y = j;
+                    
+                    puntos.push([x, y]);
+                    fotocentros.appendChild(createCircle(x,y))
+
+                    xminfoto=i-AnchoFoto/2;
+                    xmaxfoto=i+AnchoFoto/2;
+                    yminfoto=j-AltoFoto/2;
+                    ymaxfoto=j+AltoFoto/2;
+
+                    const data = `M${xminfoto},${yminfoto} L${xminfoto},${ymaxfoto} L${xmaxfoto},${ymaxfoto} L${xmaxfoto},${yminfoto} Z`;
+                    let AreaFoto = document.createElementNS(svgNS,"path");
+                    AreaFoto.setAttributeNS(null,"d",data);
+                    AreaFoto.setAttributeNS(null,"fill","none");
+                    AreaFoto.setAttributeNS(null,"stroke","blue");
+                    fotos.appendChild(AreaFoto)
+
+                }
+            
+            }
+            ascendente = !ascendente;
+        
+        }
+        let ultimacoord=puntos[puntos.length-1]
+        let ultx=ultimacoord[ultimacoord.length-2]
+        let ulty=ultimacoord[ultimacoord.length-1]
+
+        let landPath = document.createElementNS(svgNS,"path"); 
+          const dataland = `M${ultx},${ulty} L${xland},${ylandreal} Z`;
+          
+          landPath.setAttributeNS(null,"id","landpath");
+          landPath.setAttributeNS(null,"d",dataland);
+          landPath.setAttributeNS(null,"fill","none");
+          landPath.setAttributeNS(null,"stroke","red");
+          path.appendChild(landPath)
+          //document.getElementById("svgContainer").appendChild(landPath);
+
+        document.getElementById("svgContainer").appendChild(fotocentros);
+        document.getElementById("svgContainer").appendChild(fotos);
+
+    }
+
+    else if (distancia2 < distancia1 && distancia2 < distancia3 && distancia2 < distancia4){
+
+      let tofPath = document.createElementNS(svgNS,"path"); 
+      const data = `M${xtof},${ytofreal} L${xmin},${ymax} Z`;
+      
+      tofPath.setAttributeNS(null,"id","tofpath");
+      tofPath.setAttributeNS(null,"d",data);
+      tofPath.setAttributeNS(null,"fill","none");
+      tofPath.setAttributeNS(null,"stroke","red");
+      document.getElementById("svgContainer").appendChild(tofPath);
+
+        let ascendente = true;
+
+        for (let i=xmin ;i<xmax; i+=DistanciaSidelap){
+
+            if (ascendente){
+                for (let j=ymax;j>ymin; j-=DistanciaOverlap){
+                    x = i;
+                    y = j;
+                    
+                    puntos.push([x, y]);
+                    fotocentros.appendChild(createCircle(x,y))
+                    xminfoto=i-AnchoFoto/2;
+                    xmaxfoto=i+AnchoFoto/2;
+                    yminfoto=j-AltoFoto/2;
+                    ymaxfoto=j+AltoFoto/2;
+
+                    const data = `M${xminfoto},${yminfoto} L${xminfoto},${ymaxfoto} L${xmaxfoto},${ymaxfoto} L${xmaxfoto},${yminfoto} Z`;
+                    let AreaFoto = document.createElementNS(svgNS,"path");
+                    AreaFoto.setAttributeNS(null,"d",data);
+                    AreaFoto.setAttributeNS(null,"fill","none");
+                    AreaFoto.setAttributeNS(null,"stroke","blue");
+                    fotos.appendChild(AreaFoto)
+                } 
+            }else{
+              let k=puntos[puntos.length-1]
+
+                for (let j=k[k.length-1];j<=ymax; j+=DistanciaOverlap){
+                    x = i;
+                    y = j;
+                    
+                    puntos.push([x, y]);
+                    fotocentros.appendChild(createCircle(x,y))
+                    xminfoto=i-AnchoFoto/2;
+                    xmaxfoto=i+AnchoFoto/2;
+                    yminfoto=j-AltoFoto/2;
+                    ymaxfoto=j+AltoFoto/2;
+
+                    const data = `M${xminfoto},${yminfoto} L${xminfoto},${ymaxfoto} L${xmaxfoto},${ymaxfoto} L${xmaxfoto},${yminfoto} Z`;
+                    let AreaFoto = document.createElementNS(svgNS,"path");
+                    AreaFoto.setAttributeNS(null,"d",data);
+                    AreaFoto.setAttributeNS(null,"fill","none");
+                    AreaFoto.setAttributeNS(null,"stroke","blue");
+                    fotos.appendChild(AreaFoto)
+                }
+            
+            }
+            ascendente = !ascendente;
+        }
+
+        let ultimacoord=puntos[puntos.length-1]
+        let ultx=ultimacoord[ultimacoord.length-2]
+        let ulty=ultimacoord[ultimacoord.length-1]
+
+        let landPath = document.createElementNS(svgNS,"path"); 
+          const dataland = `M${ultx},${ulty} L${xland},${ylandreal} Z`;
+          
+          landPath.setAttributeNS(null,"id","landpath");
+          landPath.setAttributeNS(null,"d",dataland);
+          landPath.setAttributeNS(null,"fill","none");
+          landPath.setAttributeNS(null,"stroke","red");
+          document.getElementById("svgContainer").appendChild(landPath);
+
+        document.getElementById("svgContainer").appendChild(fotocentros);
+        document.getElementById("svgContainer").appendChild(fotos);
+    }
+
+    else if (distancia3 < distancia1 && distancia3 <distancia2 && distancia3 <distancia4){
+
+      let tofPath = document.createElementNS(svgNS,"path"); 
+      const data = `M${xtof},${ytofreal} L${xmax},${ymin} Z`;
+      
+      tofPath.setAttributeNS(null,"id","tofpath");
+      tofPath.setAttributeNS(null,"d",data);
+      tofPath.setAttributeNS(null,"fill","none");
+      tofPath.setAttributeNS(null,"stroke","red");
+      document.getElementById("svgContainer").appendChild(tofPath);
+
+        let ascendente = false;
+
+        for (let i=xmax ;i>xmin; i-=DistanciaSidelap){
+
+            if (ascendente){
+              let k=puntos[puntos.length-1]
+
+                for (let j=k[k.length-1];j>=ymin; j-=DistanciaOverlap){
+                    x = i;
+                    y = j;
+                    
+                    puntos.push([x, y]);
+                    fotocentros.appendChild(createCircle(x,y))
+                    xminfoto=i-AnchoFoto/2;
+                    xmaxfoto=i+AnchoFoto/2;
+                    yminfoto=j-AltoFoto/2;
+                    ymaxfoto=j+AltoFoto/2;
+
+                    const data = `M${xminfoto},${yminfoto} L${xminfoto},${ymaxfoto} L${xmaxfoto},${ymaxfoto} L${xmaxfoto},${yminfoto} Z`;
+                    let AreaFoto = document.createElementNS(svgNS,"path");
+                    AreaFoto.setAttributeNS(null,"d",data);
+                    AreaFoto.setAttributeNS(null,"fill","none");
+                    AreaFoto.setAttributeNS(null,"stroke","blue");
+                    fotos.appendChild(AreaFoto)
+                } 
+            }else{
+                for (let j=ymin;j<ymax; j+=DistanciaOverlap){
+                    x = i;
+                    y = j;
+                    
+                    puntos.push([x, y]);
+                    fotocentros.appendChild(createCircle(x,y))
+                    xminfoto=i-AnchoFoto/2;
+                    xmaxfoto=i+AnchoFoto/2;
+                    yminfoto=j-AltoFoto/2;
+                    ymaxfoto=j+AltoFoto/2;
+
+                    const data = `M${xminfoto},${yminfoto} L${xminfoto},${ymaxfoto} L${xmaxfoto},${ymaxfoto} L${xmaxfoto},${yminfoto} Z`;
+                    let AreaFoto = document.createElementNS(svgNS,"path");
+                    AreaFoto.setAttributeNS(null,"d",data);
+                    AreaFoto.setAttributeNS(null,"fill","none");
+                    AreaFoto.setAttributeNS(null,"stroke","blue");
+                    fotos.appendChild(AreaFoto)
+                }
+            
+            }
+            ascendente = !ascendente;
+        }
+
+        let ultimacoord=puntos[puntos.length-1]
+        let ultx=ultimacoord[ultimacoord.length-2]
+        let ulty=ultimacoord[ultimacoord.length-1]
+
+        let landPath = document.createElementNS(svgNS,"path"); 
+          const dataland = `M${ultx},${ulty} L${xland},${ylandreal} Z`;
+          
+          landPath.setAttributeNS(null,"id","landpath");
+          landPath.setAttributeNS(null,"d",dataland);
+          landPath.setAttributeNS(null,"fill","none");
+          landPath.setAttributeNS(null,"stroke","red");
+          document.getElementById("svgContainer").appendChild(landPath);
+
+        document.getElementById("svgContainer").appendChild(fotocentros);
+        document.getElementById("svgContainer").appendChild(fotos);
+    }
+
+    else{
+
+      let tofPath = document.createElementNS(svgNS,"path"); 
+      const data = `M${xtof},${ytofreal} L${xmax},${ymax} Z`;
+      
+      tofPath.setAttributeNS(null,"id","tofpath");
+      tofPath.setAttributeNS(null,"d",data);
+      tofPath.setAttributeNS(null,"fill","none");
+      tofPath.setAttributeNS(null,"stroke","red");
+      document.getElementById("svgContainer").appendChild(tofPath);
+
+        let ascendente = true;
+
+        for (let i=xmax ;i>xmin; i-=DistanciaSidelap){
+
+            if (ascendente){
+                for (let j=ymax;j>ymin; j-=DistanciaOverlap){
+                    x = i;
+                    y = j;
+                    
+                    puntos.push([x, y]);
+                    fotocentros.appendChild(createCircle(x,y))
+                    xminfoto=i-AnchoFoto/2;
+                    xmaxfoto=i+AnchoFoto/2;
+                    yminfoto=j-AltoFoto/2;
+                    ymaxfoto=j+AltoFoto/2;
+
+                    const data = `M${xminfoto},${yminfoto} L${xminfoto},${ymaxfoto} L${xmaxfoto},${ymaxfoto} L${xmaxfoto},${yminfoto} Z`;
+                    let AreaFoto = document.createElementNS(svgNS,"path");
+                    AreaFoto.setAttributeNS(null,"d",data);
+                    AreaFoto.setAttributeNS(null,"fill","none");
+                    AreaFoto.setAttributeNS(null,"stroke","blue");
+                    fotos.appendChild(AreaFoto)
+                } 
+            }else{
+              let k=puntos[puntos.length-1]
+
+                for (let j=k[k.length-1];j<=ymax; j+=DistanciaOverlap){
+                    x = i;
+                    y = j;
+                    
+                    puntos.push([x, y]);
+                    fotocentros.appendChild(createCircle(x,y))
+                    xminfoto=i-AnchoFoto/2;
+                    xmaxfoto=i+AnchoFoto/2;
+                    yminfoto=j-AltoFoto/2;
+                    ymaxfoto=j+AltoFoto/2;
+
+                    const data = `M${xminfoto},${yminfoto} L${xminfoto},${ymaxfoto} L${xmaxfoto},${ymaxfoto} L${xmaxfoto},${yminfoto} Z`;
+                    let AreaFoto = document.createElementNS(svgNS,"path");
+                    AreaFoto.setAttributeNS(null,"d",data);
+                    AreaFoto.setAttributeNS(null,"fill","none");
+                    AreaFoto.setAttributeNS(null,"stroke","blue");
+                    fotos.appendChild(AreaFoto)
+                }
+            
+            }
+            ascendente = !ascendente;
+     }
+
+     let ultimacoord=puntos[puntos.length-1]
+        let ultx=ultimacoord[ultimacoord.length-2]
+        let ulty=ultimacoord[ultimacoord.length-1]
+
+        let landPath = document.createElementNS(svgNS,"path"); 
+          const dataland = `M${ultx},${ulty} L${xland},${ylandreal} Z`;
+          
+          landPath.setAttributeNS(null,"id","landpath");
+          landPath.setAttributeNS(null,"d",dataland);
+          landPath.setAttributeNS(null,"fill","none");
+          landPath.setAttributeNS(null,"stroke","red");
+          document.getElementById("svgContainer").appendChild(landPath);
+
+     document.getElementById("svgContainer").appendChild(fotocentros);
+     document.getElementById("svgContainer").appendChild(fotos);
+  }
+
+    paintpath(puntos);
+    document.getElementById("svgContainer").appendChild(path);
+}
+
+
+
+
+function paintpath(puntos){
+    //d3.select(dronePath).remove();
+// https://www.w3schools.com/graphics/svg_path.asp
+    
+    dronePath = document.createElementNS(svgNS,"path"); 
+    let data = `M ${puntos[0][0]},${puntos[0][1]} `; 
+    for(let i=1; i<puntos.length; i++){
+        data +=  `L ${puntos[i][0]},${puntos[i][1]}`
+    }
+
+ //   {xmin},${ymin} L${xmin},${ymax} L${xmax},${ymax} L${xmax},${ymin} Z`;
+    dronePath.setAttributeNS(null,"id","mycircle");
+    dronePath.setAttributeNS(null,"d",data);
+    dronePath.setAttributeNS(null,"fill","none");
+    dronePath.setAttributeNS(null,"stroke","red");
+    path.appendChild(dronePath)
+    //document.getElementById("svgContainer").appendChild(dronePath);
+
+
+}
+
+
+
+function switchVisibletoflandPath(){
+            if (path.style.display === "none"){
+                path.style.display = "block";
+            } else {
+                path.style.display = "none"
+            }
+}
+
+function switchVisibleFotocentros(){
+            if (fotocentros.style.display === "none"){
+                fotocentros.style.display = "block";
+            } else {
+                fotocentros.style.display = "none"
+            }
+}
+
+function switchVisibleFotos(){
+            if (fotos.style.display === "none"){
+                fotos.style.display = "block";
+            } else {
+                fotos.style.display = "none"
+            }
+}
+
+
+function fillinTextBox(xy){
+  if(state==="tof"){
+    document.getElementById('tofx').value= xy[0]
+    document.getElementById('tofy').value= 600 - xy[1]
+    //let ytof = 600-parseInt(document.getElementById("tofy").value);
+    //document.getElementById("tofy").value=ytof
+  }
+
+  if(state==="land"){
+    document.getElementById('landx').value=xy[0]
+    document.getElementById('landy').value= 600 - xy[1]
+    //let yland = 600-parseInt(document.getElementById("landy").value);
+    //document.getElementById("landy").value=yland
+
+  }
+
+  if(state==="XYmax"){
+    document.getElementById('Xmax').value=xy[0]
+    document.getElementById('Ymax').value=xy[1]
+  }
+
+  if(state==="XYmin"){
+    document.getElementById('Xmin').value=xy[0]
+    document.getElementById('Ymin').value=xy[1]
+  }
+
+  
+
+    
+
+}
+
+function translateXY(x,y){
+            svgArea = document.getElementById('svgContainer');
+            let vbox = svgArea.getAttribute('viewBox');
+            vbox = vbox.split(" ");
+            vbox = vbox.map(e => parseInt(e));
+            let newY = (parseFloat(vbox[3])/parseFloat(svgArea.getAttribute('height'))) * y
+            let newX = (parseFloat(vbox[2])/parseFloat(svgArea.getAttribute('width'))) * x
+            newX = newX + vbox[0]
+            newY = newY + vbox[1]
+            let xt = [newX, newY];
+            return xt;
+
+}
+
+
+
+
+
+
+</script>
+
+</body>
+</html>
